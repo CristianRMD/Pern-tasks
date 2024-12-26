@@ -2,10 +2,12 @@ import express from 'express';
 import morgan from 'morgan';
 import taskRoutes from './routes/tasks.routes.js';
 import authRoutes from './routes/auth.routes.js';
+import cookieParser from 'cookie-parser';
 const app = express();
 
 //midelwares
 
+app.use(cookieParser());
 //permite que se vea en consola las peticiones que se hacen al servidor
 app.use(morgan('dev'));
 //permite que se pueda recibir datos en formato json
