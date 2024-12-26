@@ -3,6 +3,9 @@ Create table Tasks (
     title VARCHAR(255) UNIQUE NOT NULL,
     description TEXT,
 );
+
+ALTER TABLE tasks ADD COLUMN user_id INTEGER REFERENCES users(id);
+
 CREATE TABLE users(
     id SERIAL PRIMARY KEY,
     username VARCHAR(255)  NOT NULL,
@@ -11,3 +14,4 @@ CREATE TABLE users(
     created_at Timestamp DEFAULT CURRENT_TIMESTAMP,
     updated_at Timestamp DEFAULT CURRENT_TIMESTAMP
 );
+Alter table users add column gravatar VARCHAR(255);

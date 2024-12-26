@@ -1,8 +1,28 @@
 import {pool} from '../db.js'
 import bcrypt from 'bcryptjs'
+import  md5 from 'md5'
 import { createAccessToken } from '../libs/jwt.js'
 
-export const signin = (req, res) => res.send('Ingresando')
+export const signin = async(req, res) => {
+   const {email,password} = req.body
+   const result = await pool.query('SELECT * FROM users WHERE email = $1',[email])
+   if (result.rowCount === 0) {
+       return res.status(400).send('Usuario no encontrado')
+   }
+   console.log("entro")
+   const validate = await bcrypt.compare(password, result.rows[0].password)
+   if (!validate) {
+       return res.status(400).send('Contraseña incorrecta')
+   }
+
+   const token = await createAccessToken({id: result.rows[0].id})
+   res.cookie('token', token, {
+         httpOnly: true,
+         sameSite: 'none',
+         maxAge: 1000 * 60 * 60 * 24
+   })
+   return res.json(result.rows[0])
+}
 
 export const signup = async (req, res) => {
 
@@ -10,9 +30,9 @@ export const signup = async (req, res) => {
     const {username, email, password} = req.body
     
     const hashedPassword = await bcrypt.hash(password, 10)
-    
-    const result = await pool.query('INSERT INTO users (username, email, password) VALUES ($1, $2, $3) returning *', [username, email, hashedPassword],)
-  //  console.log(result.rows[0])
+      const gravatar = `https://www.gravatar.com/avatar/${md5(email)}`;
+    const result = await pool.query('INSERT INTO users (username, email, password,gravatar) VALUES ($1, $2, $3, $4) returning *', [username, email, hashedPassword,gravatar],)
+   console.log(result.rows[0])
   //  res.send(result.rows[0]);
     const token = await createAccessToken({id: result.rows[0].id})
 
@@ -30,5 +50,11 @@ if (error.code === '23505') {
  }   
 }}
 
-export const signout = (req, res) => res.send('Saliendo')
-export const profile = (req, res) => res.send('Perfil')
+export const signout = (req, res) => {
+      res.clearCookie('token')
+      return res.send('Sesion cerrada')
+}
+export const profile = async(req, res) => {
+const result = await pool.query('SELECT * FROM users WHERE id = $1', [req.userId])
+return res.json(result.rows[0])
+}
