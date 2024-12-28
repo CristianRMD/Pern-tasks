@@ -12,7 +12,7 @@ function RegisterPage() {
 
       const user =await signup(data)    // con axios se faciliita mucho el envio de datos al servidor
       if (user){
-        navigate('/profile')
+        navigate('/tasks')
       }
 
   });
@@ -51,7 +51,7 @@ function RegisterPage() {
 
         <Button> Register </Button>
         <div className='flex justify-between my-4'>
-          <p>
+          <p className="mr-4">
             Already have an account?
           </p>
           <Link to="/login" className="text-blue-500 font-bold">Login</Link>

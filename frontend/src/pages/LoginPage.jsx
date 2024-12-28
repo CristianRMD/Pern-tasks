@@ -4,14 +4,14 @@ import {useForm} from 'react-hook-form'
 import {useAuth} from '../context/AuthContext'
 function LoginPage() {
 const navigate = useNavigate()
-  const {signin,errors,isAuth} = useAuth()
-  const {register,handleSubmit} = useForm()
+  const {signin,errors:loginErrors,isAuth} = useAuth()
+  const {register,handleSubmit,formState:{errors}} = useForm()
   
   const onSubmit = handleSubmit(async (data) => {
    const user = await signin(data)
    //navigate('/profile')  
     if (user){
-      navigate('/profile')
+      navigate('/tasks')
     }
    
   })
@@ -19,8 +19,8 @@ const navigate = useNavigate()
   return (
     <div className="h-[calc(100vh-64px)] flex items-center justify-center">
     <Card>
-      {errors &&
-      ( errors.map(err=> (<p className='text-red-500 text-center'>{err}</p>
+      {loginErrors &&
+      ( loginErrors.map(err=> (<p className='text-red-500 text-center'>{err}</p>
       )
       )
     )
@@ -32,13 +32,18 @@ const navigate = useNavigate()
           <Label htmlFor="email">Email</Label>
         <Input type ="email" placeholder = "Email"
         {...register("email",{required:true}) }></Input>
+            {errors.email && <p className="text-red-500">email is required</p>}
+
+
         <Label htmlFor="password">Password</Label>
         <Input type ="password" placeholder = "password" 
         {...register("password",{required:true}) }></Input>
+            {errors.password && <p className="text-red-500">password is required</p>}
+
         <Button>Sign In</Button>
 
         <div className='flex justify-between my-4'>
-          <p>
+          <p className='mr-4'>
             Don't have an account? 
           </p>
           <Link to="/register" className="text-blue-500 font-bold">Register</Link>
