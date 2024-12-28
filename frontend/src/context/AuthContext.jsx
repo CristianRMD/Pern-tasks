@@ -64,8 +64,8 @@ useEffect(() => {
             setIsAuth(true)
         }).catch(err=>{
             console.log(err)
-         //   setUser(null)
-           // setIsAuth(false)
+           setUser(null)
+            setIsAuth(false)
         })
     }
 
