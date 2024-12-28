@@ -1,15 +1,15 @@
 import { Routes, Route } from "react-router-dom";
-import AboutPage from "./assets/pages/AboutPage.jsx";
-import LoginPage from "./assets/pages/LoginPage.jsx";
-import ProfilePage from "./assets/pages/ProfilePage.jsx";
-import HomePage from "./assets/pages/HomePage.jsx";
-import RegisterPage from "./assets/pages/RegisterPage.jsx";
-import TasksPage from "./assets/pages/TasksPage.jsx";
-import TaskFormPage from "./assets/pages/TaskFormPage.jsx"; 
-
+import AboutPage from "./pages/AboutPage.jsx";
+import LoginPage from "./pages/LoginPage.jsx";
+import ProfilePage from "./pages/ProfilePage.jsx";
+import HomePage from "./pages/HomePage.jsx";
+import RegisterPage from "./pages/RegisterPage.jsx";
+import TasksPage from "./pages/TasksPage.jsx";
+import TaskFormPage from "./pages/TaskFormPage.jsx"; 
+import NotFound from "./pages/NotFound.jsx";
 function App() {
   return (
-    <Routes>
+      <Routes>
       <Route path ="/" element = {<HomePage/>}> </Route>
       <Route path ="/about" element = {<AboutPage/>} ></Route>
       <Route path ="/login" element = {<LoginPage/>}> </Route>
@@ -19,9 +19,9 @@ function App() {
       <Route path ="/tasks/new" element = {<TaskFormPage/>}> </Route>
       <Route path ="/tasks/1/edit" element = {<TaskFormPage/>}> </Route>
       <Route path ="/profile" element = {<ProfilePage/>}> </Route>
-
+      <Route path ="*" element={<NotFound/>}></Route>
     </Routes>
-  );
+ );
 }
 
 export default App;

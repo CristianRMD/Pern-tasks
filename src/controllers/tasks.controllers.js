@@ -18,6 +18,7 @@ export const getTask = async(req, res) => {
 }
 
 
+
 export const createTask = async (req, res,next) => {
 const {title , description} = req.body;
 try {
@@ -32,6 +33,8 @@ try {
     next(error);
 }
 }
+
+
 
 export const updateTask = async(req, res) => {
     const {id} = req.params;

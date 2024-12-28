@@ -3,10 +3,12 @@ import morgan from 'morgan';
 import taskRoutes from './routes/tasks.routes.js';
 import authRoutes from './routes/auth.routes.js';
 import cookieParser from 'cookie-parser';
+import cors from 'cors';
 const app = express();
 
 //midelwares
 
+app.use(cors({origin: 'http://localhost:5173',credentials:true})); //para que se pueda hacer peticiones desde el frontend
 app.use(cookieParser());
 //permite que se vea en consola las peticiones que se hacen al servidor
 app.use(morgan('dev'));

@@ -7,9 +7,9 @@ export const signin = async(req, res) => {
    const {email,password} = req.body
    const result = await pool.query('SELECT * FROM users WHERE email = $1',[email])
    if (result.rowCount === 0) {
-       return res.status(400).send('Usuario no encontrado')
+       return res.status(400).json({message: 'El CORREO no esta registrado'})
    }
-   console.log("entro")
+   
    const validate = await bcrypt.compare(password, result.rows[0].password)
    if (!validate) {
        return res.status(400).send('Contraseña incorrecta')
@@ -17,7 +17,8 @@ export const signin = async(req, res) => {
 
    const token = await createAccessToken({id: result.rows[0].id})
    res.cookie('token', token, {
-         httpOnly: true,
+        // httpOnly: true,
+        secure: true,
          sameSite: 'none',
          maxAge: 1000 * 60 * 60 * 24
    })
@@ -37,15 +38,17 @@ export const signup = async (req, res) => {
     const token = await createAccessToken({id: result.rows[0].id})
 
    res.cookie('token', token,{
-         httpOnly: true,
-         sameSite :'none',
+        // httpOnly: true,
+         secure : true,
+        sameSite :'none',
          maxAge: 1000 * 60 * 60*24,
    })
 
-   return res.json({token:token})
+   return res.json(result.rows[0])
  
 } catch (error) {
 if (error.code === '23505') {
+      console.log("hay error")
     return res.status(400).send('El usuario ya existe')
  }   
 }}
