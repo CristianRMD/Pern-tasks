@@ -1,6 +1,5 @@
 import { useEffect } from "react"
 import { TaskCard } from "../Components/tasks/TaskCard"
-import { useState } from "react"
 import { useTasks } from "../context/TaskContext"
 function TasksPage() {
   const {tasks,loadTasks} = useTasks()
