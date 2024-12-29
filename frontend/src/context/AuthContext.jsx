@@ -2,7 +2,6 @@ import {createContext, useContext, useEffect} from 'react'
 import {useState} from 'react'
 import axios from '../api/axios'
 import Cookie  from 'js-cookie'
-import { set } from 'zod'
 export const AuthContext = createContext()
 
 export const useAuth = () =>{
